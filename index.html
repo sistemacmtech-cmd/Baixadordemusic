@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MediaPlay - Suas Músicas Locais</title>
+    <title>Music Sistem - Player Local</title>
     
     <!-- PWA Settings -->
     <meta name="theme-color" content="#121212">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="MediaPlay">
+    <meta name="apple-mobile-web-app-title" content="Music Sistem">
     
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3388/3388902.png">
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3388/3388902.png">
 
-    <!-- Fonts & Icons (Spotify Style) -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
             --spotify-green-hover: #1ed760;
             --text-main: #ffffff;
             --text-sub: #b3b3b3;
-            --player-height: 90px;
+            --player-height: 95px;
         }
 
         * {
@@ -89,14 +89,14 @@
             width: 100%;
         }
 
-        /* Botão para Adicionar Músicas do Celular */
+        /* Botão para Adicionar Músicas */
         .upload-section {
             background: linear-gradient(135deg, #282828, #181818);
             border: 2px dashed rgba(255,255,255,0.15);
             border-radius: 16px;
             padding: 24px;
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -125,6 +125,47 @@
 
         #fileInput {
             display: none;
+        }
+
+        /* Equalizador Gráfico Card */
+        .equalizer-box {
+            background-color: var(--spotify-darkgray);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .eq-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .eq-sliders {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            text-align: center;
+        }
+
+        .eq-control {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--text-sub);
+        }
+
+        .eq-control input[type="range"] {
+            -webkit-appearance: slider-vertical;
+            width: 100%;
+            height: 80px;
+            accent-color: var(--spotify-green);
+            cursor: pointer;
         }
 
         /* Playlist / Lista de Músicas */
@@ -193,6 +234,26 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        .song-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .whatsapp-share-btn {
+            background: none;
+            border: none;
+            color: #25d366;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 6px;
+            transition: transform 0.2s;
+        }
+
+        .whatsapp-share-btn:hover {
+            transform: scale(1.15);
         }
 
         /* Empty State */
@@ -346,13 +407,13 @@
     <header>
         <div class="logo">
             <i class="fa-solid fa-compact-disc"></i>
-            <span>MediaPlay</span>
+            <span>Music Sistem</span>
         </div>
     </header>
 
     <!-- Main Section -->
     <main>
-        <!-- Botão Selecionar Músicas do Celular -->
+        <!-- Botão Selecionar Músicas -->
         <div class="upload-section" onclick="document.getElementById('fileInput').click()">
             <i class="fa-solid fa-folder-open"></i>
             <h3>Adicionar Músicas do Aparelho</h3>
@@ -360,9 +421,30 @@
             <input type="file" id="fileInput" accept="audio/*" multiple>
         </div>
 
-        <div class="section-title">Suas Músicas Locais</div>
+        <!-- Equalizador Gráfico -->
+        <div class="equalizer-box">
+            <div class="eq-header">
+                <span><i class="fa-solid fa-sliders"></i> Equalizador Gráfico</span>
+            </div>
+            <div class="eq-sliders">
+                <div class="eq-control">
+                    <input type="range" id="eqBass" min="-20" max="20" value="0" step="1">
+                    <span>Graves (Bass)</span>
+                </div>
+                <div class="eq-control">
+                    <input type="range" id="eqMid" min="-20" max="20" value="0" step="1">
+                    <span>Médios (Mid)</span>
+                </div>
+                <div class="eq-control">
+                    <input type="range" id="eqTreble" min="-20" max="20" value="0" step="1">
+                    <span>Agudos (Treble)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">Sua Playlist Local</div>
         
-        <!-- Playlist Local -->
+        <!-- Playlist -->
         <div class="song-list" id="playlistContainer">
             <div class="empty-state">
                 <i class="fa-solid fa-music"></i>
@@ -371,7 +453,7 @@
         </div>
     </main>
 
-    <!-- Player Fixo Estilo Spotify -->
+    <!-- Player Fixo -->
     <div class="player-bar" id="playerBar">
         <div class="player-main">
             <div class="player-left">
@@ -397,12 +479,14 @@
     </div>
 
     <!-- Elemento de Áudio HTML5 -->
-    <audio id="audioElement"></audio>
+    <audio id="audioElement" crossorigin="anonymous"></audio>
 
     <script>
         let playlist = [];
         let currentIndex = 0;
-        
+        let audioCtx, sourceNode, bassFilter, midFilter, trebleFilter;
+        let isAudioInit = false;
+
         const fileInput = document.getElementById('fileInput');
         const playlistContainer = document.getElementById('playlistContainer');
         const audioElement = document.getElementById('audioElement');
@@ -415,13 +499,58 @@
         const currentTimeEl = document.getElementById('currentTime');
         const totalDurationEl = document.getElementById('totalDuration');
 
-        // Carregar músicas selecionadas pelo usuário
+        // Inicializar Equalizador Web Audio API
+        function initEqualizer() {
+            if (isAudioInit) return;
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                sourceNode = audioCtx.createMediaElementSource(audioElement);
+
+                // Filtro de Graves (Lowpass/Lowshelf)
+                bassFilter = audioCtx.createBiquadFilter();
+                bassFilter.type = 'lowshelf';
+                bassFilter.frequency.setValueAtTime(250, audioCtx.currentTime);
+
+                // Filtro de Médios (Peaking)
+                midFilter = audioCtx.createBiquadFilter();
+                midFilter.type = 'peaking';
+                midFilter.frequency.setValueAtTime(1500, audioCtx.currentTime);
+                midFilter.Q.setValueAtTime(1, audioCtx.currentTime);
+
+                // Filtro de Agudos (Highshelf)
+                trebleFilter = audioCtx.createBiquadFilter();
+                trebleFilter.type = 'highshelf';
+                trebleFilter.frequency.setValueAtTime(4000, audioCtx.currentTime);
+
+                // Conectar os nós de áudio
+                sourceNode.connect(bassFilter);
+                bassFilter.connect(midFilter);
+                midFilter.connect(trebleFilter);
+                trebleFilter.connect(audioCtx.destination);
+
+                isAudioInit = true;
+            } catch (e) {
+                console.log("Equalizador não suportado neste navegador.");
+            }
+        }
+
+        // Controladores do Equalizador
+        document.getElementById('eqBass').addEventListener('input', (e) => {
+            if (bassFilter) bassFilter.gain.value = parseFloat(e.target.value);
+        });
+        document.getElementById('eqMid').addEventListener('input', (e) => {
+            if (midFilter) midFilter.gain.value = parseFloat(e.target.value);
+        });
+        document.getElementById('eqTreble').addEventListener('input', (e) => {
+            if (trebleFilter) trebleFilter.gain.value = parseFloat(e.target.value);
+        });
+
+        // Carregar arquivos locais
         fileInput.addEventListener('change', (e) => {
             const files = Array.from(e.target.files);
             if (files.length === 0) return;
 
             files.forEach(file => {
-                // Tenta extrair Nome e Artista do nome do arquivo (Ex: "Artista - Musica.mp3")
                 let nameWithoutExt = file.name.replace(/\.[^/.]+$/, "");
                 let parts = nameWithoutExt.split('-');
                 let artist = parts.length > 1 ? parts[0].trim() : "Música Local";
@@ -452,6 +581,11 @@
                         <div class="song-title">${song.title}</div>
                         <div class="song-artist">${song.artist}</div>
                     </div>
+                    <div class="song-actions">
+                        <button class="whatsapp-share-btn" onclick="shareWhatsApp(event, '${song.title}', '${song.artist}')" title="Compartilhar no WhatsApp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </button>
+                    </div>
                 </div>
             `).join('');
         }
@@ -460,6 +594,11 @@
             if (index < 0 || index >= playlist.length) return;
             currentIndex = index;
             const song = playlist[currentIndex];
+
+            initEqualizer();
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
 
             audioElement.src = song.url;
             playerTitle.textContent = song.title;
@@ -473,6 +612,11 @@
 
         function togglePlay() {
             if (!audioElement.src) return;
+            initEqualizer();
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
             if (audioElement.paused) {
                 audioElement.play();
                 updatePlayIcon(true);
@@ -498,7 +642,15 @@
             playSong(prev);
         }
 
-        // Eventos de Áudio e Seek Bar
+        // Compartilhar via WhatsApp
+        function shareWhatsApp(event, title, artist) {
+            event.stopPropagation(); // Evita tocar a música ao clicar no botão de share
+            const text = encodeURIComponent(`Estou ouvindo "${title}" de ${artist} no Music Sistem! 🎶🎧`);
+            const whatsappUrl = `https://api.whatsapp.com/send?text=${text}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Eventos de Áudio
         audioElement.addEventListener('timeupdate', () => {
             if (!isNaN(audioElement.duration)) {
                 const progress = (audioElement.currentTime / audioElement.duration) * 100;
