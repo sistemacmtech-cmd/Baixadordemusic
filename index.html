@@ -10,12 +10,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MusicDown">
-    <meta name="description" content="Baixe suas músicas e áudios favoritos em MP3 para o seu celular com qualidade!">
     
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3844/3844724.png">
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3844/3844724.png">
     
-    <!-- Manifest PWA -->
+    <!-- Manifest PWA Dinâmico -->
     <script>
         const manifestData = {
             "name": "MusicDown - Downloader MP3",
@@ -177,7 +176,7 @@
             display: none;
         }
 
-        /* Categorias */
+        /* Categorias/Tags */
         .categories {
             display: flex;
             gap: 8px;
@@ -210,7 +209,7 @@
             border-color: var(--accent-purple);
         }
 
-        /* Tabs */
+        /* Tabs (Resultados / Baixadas) */
         .tabs {
             display: flex;
             gap: 12px;
@@ -590,7 +589,7 @@
 
         <!-- Categorias Rápidas -->
         <div class="categories">
-            <div class="chip active" onclick="searchGenre('Top Hits Brasil')">🔥 Em Alta</div>
+            <div class="chip active" onclick="searchGenre('Top Brasil')">🔥 Em Alta</div>
             <div class="chip" onclick="searchGenre('Sertanejo')">🤠 Sertanejo</div>
             <div class="chip" onclick="searchGenre('Pop')">✨ Pop</div>
             <div class="chip" onclick="searchGenre('Funk')">🔊 Funk</div>
@@ -661,6 +660,7 @@
         let downloadedSongs = JSON.parse(localStorage.getItem('downloaded_songs_v2') || '[]');
         let currentPlayingId = null;
         let downloadInterval = null;
+        let currentTab = 'search';
 
         // DOM Elements
         const searchInput = document.getElementById('searchInput');
@@ -691,11 +691,9 @@
             updateLibraryUI();
             setupAudioEvents();
             setupPWA();
-            // Carrega músicas em alta ao iniciar
             searchAPI("Top Brasil");
         });
 
-        // Evento de digitação na busca com API em tempo real
         searchInput.addEventListener('input', (e) => {
             const query = e.target.value.trim();
             clearBtn.style.display = query ? 'block' : 'none';
@@ -730,7 +728,6 @@
             searchAPI(genre);
         }
 
-        // Buscar Músicas na API da Apple iTunes (Gratuita, Sem API Key)
         async function searchAPI(term) {
             try {
                 const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&entity=song&limit=25`);
@@ -755,7 +752,6 @@
             }
         }
 
-        // Renderizar Resultados da Busca
         function renderSearchList(list) {
             if (!list || list.length === 0) {
                 searchResults.innerHTML = `
@@ -792,7 +788,6 @@
             }).join('');
         }
 
-        // Renderizar Músicas Salvas
         function renderLibraryList() {
             if (downloadedSongs.length === 0) {
                 libraryResults.innerHTML = `
@@ -827,7 +822,6 @@
             }).join('');
         }
 
-        // Tocar Música
         function playSong(id) {
             const song = currentSearchResults.find(s => s.id === id) || downloadedSongs.find(s => s.id === id);
             if (!song) return;
@@ -898,7 +892,6 @@
             return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        // Baixar MP3
         async function startDownload(id) {
             const song = currentSearchResults.find(s => s.id === id) || downloadedSongs.find(s => s.id === id);
             if (!song) return;
@@ -911,7 +904,6 @@
             downloadModal.classList.add('active');
 
             try {
-                // Fetch real do arquivo de áudio
                 const response = await fetch(song.audioUrl);
                 const blob = await response.blob();
                 
@@ -924,7 +916,6 @@
                     if (progress >= 100) {
                         clearInterval(downloadInterval);
                         
-                        // Salvar na memória interna do celular
                         const blobUrl = URL.createObjectURL(blob);
                         const a = document.createElement('a');
                         a.href = blobUrl;
