@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Music Sistem - Player Local</title>
+    <title>Music Sistem - Player Pro & Equalizer</title>
     
     <!-- PWA Settings -->
     <meta name="theme-color" content="#121212">
@@ -81,7 +81,6 @@
             font-size: 1.6rem;
         }
 
-        /* Main Container */
         main {
             padding: 20px;
             max-width: 600px;
@@ -89,12 +88,12 @@
             width: 100%;
         }
 
-        /* Botão para Adicionar Músicas */
+        /* Upload Container */
         .upload-section {
             background: linear-gradient(135deg, #282828, #181818);
             border: 2px dashed rgba(255,255,255,0.15);
             border-radius: 16px;
-            padding: 24px;
+            padding: 20px;
             text-align: center;
             margin-bottom: 20px;
             cursor: pointer;
@@ -107,19 +106,19 @@
         }
 
         .upload-section i {
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: var(--spotify-green);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .upload-section h3 {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             margin-bottom: 4px;
         }
 
         .upload-section p {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-sub);
         }
 
@@ -127,7 +126,7 @@
             display: none;
         }
 
-        /* Equalizador Gráfico Card */
+        /* Equalizador de 10 Bandas */
         .equalizer-box {
             background-color: var(--spotify-darkgray);
             border-radius: 12px;
@@ -142,38 +141,58 @@
             align-items: center;
             margin-bottom: 12px;
             font-size: 0.9rem;
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        .eq-sliders {
+        .eq-presets {
+            background-color: var(--spotify-lightgray);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            outline: none;
+        }
+
+        .eq-10bands {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 4px;
             text-align: center;
+            align-items: center;
         }
 
-        .eq-control {
+        .eq-band {
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: 6px;
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             color: var(--text-sub);
         }
 
-        .eq-control input[type="range"] {
+        .eq-band input[type="range"] {
             -webkit-appearance: slider-vertical;
             width: 100%;
-            height: 80px;
+            height: 90px;
             accent-color: var(--spotify-green);
             cursor: pointer;
         }
 
-        /* Playlist / Lista de Músicas */
+        .band-freq {
+            font-weight: 600;
+            font-size: 0.6rem;
+            color: var(--text-main);
+        }
+
+        /* Playlist */
         .section-title {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
             margin-bottom: 14px;
-            letter-spacing: -0.3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .song-list {
@@ -188,7 +207,7 @@
             padding: 10px 12px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             transition: background-color 0.2s;
             cursor: pointer;
         }
@@ -202,8 +221,8 @@
         }
 
         .thumb-placeholder {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             background-color: #333;
             border-radius: 6px;
             display: flex;
@@ -211,7 +230,7 @@
             justify-content: center;
             color: var(--text-sub);
             flex-shrink: 0;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .song-info {
@@ -221,8 +240,8 @@
 
         .song-title {
             font-weight: 600;
-            font-size: 0.92rem;
-            margin-bottom: 3px;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -230,7 +249,7 @@
 
         .song-artist {
             color: var(--text-sub);
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -242,17 +261,24 @@
             gap: 10px;
         }
 
-        .whatsapp-share-btn {
+        .action-btn-icon {
             background: none;
             border: none;
-            color: #25d366;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             cursor: pointer;
-            padding: 6px;
-            transition: transform 0.2s;
+            padding: 4px;
+            transition: transform 0.2s, color 0.2s;
         }
 
-        .whatsapp-share-btn:hover {
+        .whatsapp-btn {
+            color: #25d366;
+        }
+
+        .delete-btn {
+            color: #ff5555;
+        }
+
+        .action-btn-icon:hover {
             transform: scale(1.15);
         }
 
@@ -264,12 +290,12 @@
         }
 
         .empty-state i {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 12px;
             opacity: 0.4;
         }
 
-        /* Player Fixo Inferior */
+        /* Player Bottom Bar */
         .player-bar {
             position: fixed;
             bottom: 0;
@@ -346,11 +372,6 @@
             color: var(--text-main);
             font-size: 1.1rem;
             cursor: pointer;
-            transition: transform 0.1s;
-        }
-
-        .ctrl-btn:active {
-            transform: scale(0.9);
         }
 
         .play-pause-main {
@@ -397,7 +418,6 @@
             height: 10px;
             border-radius: 50%;
             background: #fff;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -413,47 +433,45 @@
 
     <!-- Main Section -->
     <main>
-        <!-- Botão Selecionar Músicas -->
+        <!-- Add Music Button -->
         <div class="upload-section" onclick="document.getElementById('fileInput').click()">
-            <i class="fa-solid fa-folder-open"></i>
-            <h3>Adicionar Músicas do Aparelho</h3>
-            <p>Toque para selecionar arquivos MP3, WAV ou AAC</p>
+            <i class="fa-solid fa-folder-plus"></i>
+            <h3>Salvar Novas Músicas no App</h3>
+            <p>Selecione arquivos MP3/WAV. Eles ficarão gravados permanentemente!</p>
             <input type="file" id="fileInput" accept="audio/*" multiple>
         </div>
 
-        <!-- Equalizador Gráfico -->
+        <!-- 10-Band Equalizer -->
         <div class="equalizer-box">
             <div class="eq-header">
-                <span><i class="fa-solid fa-sliders"></i> Equalizador Gráfico</span>
+                <span><i class="fa-solid fa-sliders"></i> Equalizador 10 Bandas</span>
+                <select id="eqPresetSelect" class="eq-presets" onchange="applyPreset(this.value)">
+                    <option value="flat">Flat (Padrão)</option>
+                    <option value="bass">Bass Boost (Graves)</option>
+                    <option value="pop">Pop</option>
+                    <option value="rock">Rock</option>
+                    <option value="vocal">Vocal</option>
+                    <option value="electro">Eletrônica</option>
+                </select>
             </div>
-            <div class="eq-sliders">
-                <div class="eq-control">
-                    <input type="range" id="eqBass" min="-20" max="20" value="0" step="1">
-                    <span>Graves (Bass)</span>
-                </div>
-                <div class="eq-control">
-                    <input type="range" id="eqMid" min="-20" max="20" value="0" step="1">
-                    <span>Médios (Mid)</span>
-                </div>
-                <div class="eq-control">
-                    <input type="range" id="eqTreble" min="-20" max="20" value="0" step="1">
-                    <span>Agudos (Treble)</span>
-                </div>
-            </div>
+            <div class="eq-10bands" id="eqContainer"></div>
         </div>
 
-        <div class="section-title">Sua Playlist Local</div>
+        <div class="section-title">
+            <span>Sua Playlist Gravada</span>
+            <span id="songCountText" style="font-size: 0.8rem; color: var(--text-sub); font-weight: 400;">(0 Músicas)</span>
+        </div>
         
-        <!-- Playlist -->
+        <!-- Playlist Container -->
         <div class="song-list" id="playlistContainer">
             <div class="empty-state">
                 <i class="fa-solid fa-music"></i>
-                <p>Nenhuma música carregada ainda.<br>Toque na caixa acima para escolher.</p>
+                <p>Nenhuma música salva no app.<br>Adicione arquivos na caixa acima.</p>
             </div>
         </div>
     </main>
 
-    <!-- Player Fixo -->
+    <!-- Floating Player Bar -->
     <div class="player-bar" id="playerBar">
         <div class="player-main">
             <div class="player-left">
@@ -461,14 +479,14 @@
                     <i class="fa-solid fa-music"></i>
                 </div>
                 <div class="player-text">
-                    <div class="player-title" id="playerTitle">Nome da Música</div>
-                    <div class="player-artist" id="playerArtist">Artista Desconhecido</div>
+                    <div class="player-title" id="playerTitle">Título</div>
+                    <div class="player-artist" id="playerArtist">Artista</div>
                 </div>
             </div>
             <div class="player-controls">
-                <button class="ctrl-btn" onclick="prevSong()" title="Anterior"><i class="fa-solid fa-backward-step"></i></button>
+                <button class="ctrl-btn" onclick="prevSong()"><i class="fa-solid fa-backward-step"></i></button>
                 <button class="ctrl-btn play-pause-main" id="playPauseBtn" onclick="togglePlay()"><i class="fa-solid fa-play"></i></button>
-                <button class="ctrl-btn" onclick="nextSong()" title="Próxima"><i class="fa-solid fa-forward-step"></i></button>
+                <button class="ctrl-btn" onclick="nextSong()"><i class="fa-solid fa-forward-step"></i></button>
             </div>
         </div>
         <div class="progress-container">
@@ -478,13 +496,26 @@
         </div>
     </div>
 
-    <!-- Elemento de Áudio HTML5 -->
-    <audio id="audioElement" crossorigin="anonymous"></audio>
+    <!-- Hidden HTML5 Audio Element -->
+    <audio id="audioElement"></audio>
 
     <script>
+        // Frequências para o Equalizador de 10 Bandas
+        const EQ_FREQUENCIES = [31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];
+        const PRESETS = {
+            flat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            bass: [9, 7, 5, 3, 0, 0, 0, 0, 0, 0],
+            pop: [-1, 2, 4, 5, 3, -1, -2, -2, -1, -1],
+            rock: [5, 4, 2, 0, -1, 0, 2, 4, 5, 6],
+            vocal: [-2, -2, -1, 1, 4, 5, 4, 2, 0, -2],
+            electro: [6, 5, 2, 0, -2, 2, 1, 3, 5, 6]
+        };
+
+        let db;
         let playlist = [];
         let currentIndex = 0;
-        let audioCtx, sourceNode, bassFilter, midFilter, trebleFilter;
+        let audioCtx, sourceNode;
+        let eqFilters = [];
         let isAudioInit = false;
 
         const fileInput = document.getElementById('fileInput');
@@ -499,56 +530,90 @@
         const currentTimeEl = document.getElementById('currentTime');
         const totalDurationEl = document.getElementById('totalDuration');
 
-        // Inicializar Equalizador Web Audio API
-        function initEqualizer() {
+        // Inicializar Banco de Dados IndexedDB para Persistência Offline
+        function initDB() {
+            const request = indexedDB.open('MusicSistemDB', 1);
+
+            request.onupgradeneeded = (e) => {
+                db = e.target.result;
+                if (!db.objectStoreNames.contains('songs')) {
+                    db.createObjectStore('songs', { keyPath: 'id', autoIncrement: true });
+                }
+            };
+
+            request.onsuccess = (e) => {
+                db = e.target.result;
+                loadSavedSongs();
+            };
+        }
+
+        // Renderizar Sliders do Equalizador de 10 Bandas
+        function setupEqualizerUI() {
+            const container = document.getElementById('eqContainer');
+            container.innerHTML = EQ_FREQUENCIES.map((freq, index) => {
+                const label = freq >= 1000 ? `${freq/1000}k` : freq;
+                return `
+                    <div class="eq-band">
+                        <input type="range" id="eqSlider_${index}" min="-12" max="12" value="0" step="1" oninput="updateEqGain(${index}, this.value)">
+                        <span class="band-freq">${label}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Web Audio API para Equalizador
+        function initAudioContext() {
             if (isAudioInit) return;
             try {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 sourceNode = audioCtx.createMediaElementSource(audioElement);
 
-                // Filtro de Graves (Lowpass/Lowshelf)
-                bassFilter = audioCtx.createBiquadFilter();
-                bassFilter.type = 'lowshelf';
-                bassFilter.frequency.setValueAtTime(250, audioCtx.currentTime);
+                let previousNode = sourceNode;
 
-                // Filtro de Médios (Peaking)
-                midFilter = audioCtx.createBiquadFilter();
-                midFilter.type = 'peaking';
-                midFilter.frequency.setValueAtTime(1500, audioCtx.currentTime);
-                midFilter.Q.setValueAtTime(1, audioCtx.currentTime);
+                eqFilters = EQ_FREQUENCIES.map((freq, i) => {
+                    const filter = audioCtx.createBiquadFilter();
+                    if (i === 0) filter.type = 'lowshelf';
+                    else if (i === EQ_FREQUENCIES.length - 1) filter.type = 'highshelf';
+                    else filter.type = 'peaking';
 
-                // Filtro de Agudos (Highshelf)
-                trebleFilter = audioCtx.createBiquadFilter();
-                trebleFilter.type = 'highshelf';
-                trebleFilter.frequency.setValueAtTime(4000, audioCtx.currentTime);
+                    filter.frequency.value = freq;
+                    filter.Q.value = 1.4;
+                    filter.gain.value = 0;
 
-                // Conectar os nós de áudio
-                sourceNode.connect(bassFilter);
-                bassFilter.connect(midFilter);
-                midFilter.connect(trebleFilter);
-                trebleFilter.connect(audioCtx.destination);
+                    previousNode.connect(filter);
+                    previousNode = filter;
+                    return filter;
+                });
 
+                previousNode.connect(audioCtx.destination);
                 isAudioInit = true;
             } catch (e) {
-                console.log("Equalizador não suportado neste navegador.");
+                console.log("AudioContext já ativo ou não suportado.");
             }
         }
 
-        // Controladores do Equalizador
-        document.getElementById('eqBass').addEventListener('input', (e) => {
-            if (bassFilter) bassFilter.gain.value = parseFloat(e.target.value);
-        });
-        document.getElementById('eqMid').addEventListener('input', (e) => {
-            if (midFilter) midFilter.gain.value = parseFloat(e.target.value);
-        });
-        document.getElementById('eqTreble').addEventListener('input', (e) => {
-            if (trebleFilter) trebleFilter.gain.value = parseFloat(e.target.value);
-        });
+        function updateEqGain(index, value) {
+            if (eqFilters[index]) {
+                eqFilters[index].gain.value = parseFloat(value);
+            }
+        }
 
-        // Carregar arquivos locais
+        function applyPreset(presetName) {
+            const gains = PRESETS[presetName] || PRESETS.flat;
+            gains.forEach((gain, i) => {
+                const slider = document.getElementById(`eqSlider_${i}`);
+                if (slider) slider.value = gain;
+                updateEqGain(i, gain);
+            });
+        }
+
+        // Salvar Músicas permanentemente no IndexedDB
         fileInput.addEventListener('change', (e) => {
             const files = Array.from(e.target.files);
             if (files.length === 0) return;
+
+            const transaction = db.transaction(['songs'], 'readwrite');
+            const store = transaction.objectStore('songs');
 
             files.forEach(file => {
                 let nameWithoutExt = file.name.replace(/\.[^/.]+$/, "");
@@ -556,21 +621,61 @@
                 let artist = parts.length > 1 ? parts[0].trim() : "Música Local";
                 let title = parts.length > 1 ? parts.slice(1).join('-').trim() : nameWithoutExt;
 
-                playlist.push({
+                const songData = {
                     title: title,
                     artist: artist,
-                    url: URL.createObjectURL(file)
-                });
+                    blob: file
+                };
+                store.add(songData);
             });
 
-            renderPlaylist();
-            if (audioElement.paused && playlist.length === files.length) {
-                playSong(playlist.length - files.length);
-            }
+            transaction.oncomplete = () => {
+                loadSavedSongs();
+            };
         });
 
+        // Carregar Músicas Salvas no App
+        function loadSavedSongs() {
+            const transaction = db.transaction(['songs'], 'readonly');
+            const store = transaction.objectStore('songs');
+            const request = store.getAll();
+
+            request.onsuccess = () => {
+                playlist = request.result.map(item => ({
+                    id: item.id,
+                    title: item.title,
+                    artist: item.artist,
+                    url: URL.createObjectURL(item.blob)
+                }));
+
+                document.getElementById('songCountText').textContent = `(${playlist.length} Músicas)`;
+                renderPlaylist();
+            };
+        }
+
+        // Excluir Música Permanentemente do App
+        function deleteSong(event, id) {
+            event.stopPropagation();
+            if (!confirm("Deseja realmente apagar esta música do aplicativo?")) return;
+
+            const transaction = db.transaction(['songs'], 'readwrite');
+            const store = transaction.objectStore('songs');
+            store.delete(id);
+
+            transaction.oncomplete = () => {
+                loadSavedSongs();
+            };
+        }
+
         function renderPlaylist() {
-            if (playlist.length === 0) return;
+            if (playlist.length === 0) {
+                playlistContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-music"></i>
+                        <p>Nenhuma música salva no app.<br>Adicione arquivos na caixa acima.</p>
+                    </div>`;
+                return;
+            }
 
             playlistContainer.innerHTML = playlist.map((song, index) => `
                 <div class="song-card ${index === currentIndex ? 'active' : ''}" onclick="playSong(${index})">
@@ -582,8 +687,11 @@
                         <div class="song-artist">${song.artist}</div>
                     </div>
                     <div class="song-actions">
-                        <button class="whatsapp-share-btn" onclick="shareWhatsApp(event, '${song.title}', '${song.artist}')" title="Compartilhar no WhatsApp">
+                        <button class="action-btn-icon whatsapp-btn" onclick="shareWhatsApp(event, '${song.title}', '${song.artist}')" title="Compartilhar WhatsApp">
                             <i class="fa-brands fa-whatsapp"></i>
+                        </button>
+                        <button class="action-btn-icon delete-btn" onclick="deleteSong(event, ${song.id})" title="Excluir do App">
+                            <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
                 </div>
@@ -595,7 +703,7 @@
             currentIndex = index;
             const song = playlist[currentIndex];
 
-            initEqualizer();
+            initAudioContext();
             if (audioCtx && audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
@@ -612,7 +720,7 @@
 
         function togglePlay() {
             if (!audioElement.src) return;
-            initEqualizer();
+            initAudioContext();
             if (audioCtx && audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
@@ -642,15 +750,13 @@
             playSong(prev);
         }
 
-        // Compartilhar via WhatsApp
         function shareWhatsApp(event, title, artist) {
-            event.stopPropagation(); // Evita tocar a música ao clicar no botão de share
+            event.stopPropagation();
             const text = encodeURIComponent(`Estou ouvindo "${title}" de ${artist} no Music Sistem! 🎶🎧`);
-            const whatsappUrl = `https://api.whatsapp.com/send?text=${text}`;
-            window.open(whatsappUrl, '_blank');
+            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
         }
 
-        // Eventos de Áudio
+        // Eventos de Reprodução
         audioElement.addEventListener('timeupdate', () => {
             if (!isNaN(audioElement.duration)) {
                 const progress = (audioElement.currentTime / audioElement.duration) * 100;
@@ -675,6 +781,12 @@
             const secs = Math.floor(seconds % 60);
             return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            setupEqualizerUI();
+            initDB();
+        });
     </script>
 </body>
 </html>
