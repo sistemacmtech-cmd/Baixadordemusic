@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Music Sistem Pro - Central Multimídia & Audio DSP</title>
+    <title>Music Sistem Pro - Central Multimídia & Power DSP</title>
 
     <!-- PWA Settings -->
     <meta name="theme-color" content="#121212">
@@ -28,6 +28,7 @@
             --spotify-green: #1db954;
             --accent-blue: #3b82f6;
             --accent-orange: #f59e0b;
+            --accent-purple: #8257e5;
             --text-main: #ffffff;
             --text-sub: #b3b3b3;
             --player-height: 100px;
@@ -152,7 +153,7 @@
 
         #fileInput { display: none; }
 
-        /* Car Dashboard / Vehicle Control Card */
+        /* Dashboard & Car Controls */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -247,7 +248,7 @@
             outline: none;
         }
 
-        /* 32-Band DSP & Equalizer Box */
+        /* Equalizer & Pro Profiles Box */
         .equalizer-box {
             background-color: var(--spotify-darkgray);
             border-radius: 12px;
@@ -299,12 +300,37 @@
             color: #000;
         }
 
+        /* Engine Cards (Poweramp, Wavelet, iOS, etc.) */
+        .engine-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .engine-card h5 {
+            font-size: 0.88rem;
+            color: var(--accent-purple);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .engine-card p {
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            line-height: 1.4;
+        }
+
         .eq-10bands {
             display: grid;
             grid-template-columns: repeat(10, 1fr);
             gap: 4px;
             text-align: center;
             align-items: center;
+            margin-top: 16px;
         }
 
         .eq-band {
@@ -577,8 +603,8 @@
         <!-- Nav Tabs -->
         <div class="nav-tabs">
             <button class="tab-btn active" onclick="switchView('music', this)">Músicas</button>
-            <button class="tab-btn" onclick="switchView('car', this)">Veículo & Car</button>
-            <button class="tab-btn" onclick="switchView('dsp', this)">Áudio DSP & EQ</button>
+            <button class="tab-btn" onclick="switchView('car', this)">Veículo</button>
+            <button class="tab-btn" onclick="switchView('dsp', this)">Motores & DSP EQ</button>
             <button class="tab-btn" onclick="switchView('valet', this)">Modo Valet</button>
         </div>
 
@@ -638,11 +664,11 @@
             </div>
         </div>
 
-        <!-- 3. ÁUDIO DSP & EQ VIEW -->
+        <!-- 3. MOTORES & DSP EQ VIEW -->
         <div id="view-dsp" class="app-view">
             <div class="equalizer-box">
                 <div class="eq-header">
-                    <span><i class="fa-solid fa-sliders"></i> Alinhamento de Tempo & DSP</span>
+                    <span><i class="fa-solid fa-sliders"></i> Equalizador 10 Bandas & Alinhamento DSP</span>
                     <select id="eqPresetSelect" class="eq-presets" onchange="applyPreset(this.value)">
                         <option value="flat">Flat (Padrão)</option>
                         <option value="bass">Bass Boost (Graves)</option>
@@ -660,6 +686,28 @@
                 </div>
 
                 <div class="eq-10bands" id="eqContainer"></div>
+            </div>
+
+            <!-- Perfis de Motores Externos (Poweramp, Wavelet, iOS) -->
+            <div class="equalizer-box">
+                <div class="eq-header" style="margin-bottom: 14px;">
+                    <span><i class="fa-solid fa-microchip"></i> Integração com Engines de Mercado</span>
+                </div>
+
+                <div class="engine-card">
+                    <h5><i class="fa-solid fa-bolt"></i> Poweramp Equalizer (Android)</h5>
+                    <p>Equalizador paramétrico e gráfico avançado com compressor de áudio e controle de graves extremos integrado globalmente no sistema.</p>
+                </div>
+
+                <div class="engine-card">
+                    <h5><i class="fa-solid fa-headphones"></i> Wavelet (Fones de Ouvido)</h5>
+                    <p>Identificação automática do modelo de fone de ouvido para aplicar curvas de equalização de alta precisão (AutoEQ).</p>
+                </div>
+
+                <div class="engine-card">
+                    <h5><i class="fa-solid fa-mobile-screen"></i> Flat Equalizer & Boom (iOS)</h5>
+                    <p>Alternativa visual moderna com booster de volume e perfis 3D Surround integrados para arquivos locais no ecossistema Apple.</p>
+                </div>
             </div>
         </div>
 
