@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Music Sistem - Player Pro & Equalizer</title>
-    
+    <title>Music Sistem Pro - Central Multimídia & Audio DSP</title>
+
     <!-- PWA Settings -->
     <meta name="theme-color" content="#121212">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Music Sistem">
-    
+    <meta name="apple-mobile-web-app-title" content="Music Sistem Pro">
+
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3388/3388902.png">
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3388/3388902.png">
 
@@ -26,10 +26,11 @@
             --spotify-darkgray: #181818;
             --spotify-lightgray: #282828;
             --spotify-green: #1db954;
-            --spotify-green-hover: #1ed760;
+            --accent-blue: #3b82f6;
+            --accent-orange: #f59e0b;
             --text-main: #ffffff;
             --text-sub: #b3b3b3;
-            --player-height: 95px;
+            --player-height: 100px;
         }
 
         * {
@@ -51,19 +52,18 @@
             user-select: none;
         }
 
-        /* Header */
+        /* Header / Painel Veicular */
         header {
             position: sticky;
             top: 0;
-            background: rgba(18, 18, 18, 0.9);
+            background: rgba(18, 18, 18, 0.95);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             z-index: 100;
-            padding: 16px 20px;
+            padding: 14px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
         .logo {
@@ -71,38 +71,77 @@
             align-items: center;
             gap: 10px;
             font-weight: 800;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--text-main);
-            letter-spacing: -0.5px;
         }
 
         .logo i {
             color: var(--spotify-green);
-            font-size: 1.6rem;
+            font-size: 1.5rem;
+        }
+
+        .car-status-badge {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         main {
-            padding: 20px;
-            max-width: 600px;
+            padding: 16px;
+            max-width: 650px;
             margin: 0 auto;
             width: 100%;
         }
+
+        /* Nav Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-tabs::-webkit-scrollbar { display: none; }
+
+        .tab-btn {
+            background-color: var(--spotify-lightgray);
+            border: 1px solid transparent;
+            color: var(--text-sub);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--text-main);
+            color: #000;
+        }
+
+        /* Views Content */
+        .app-view { display: none; }
+        .app-view.active { display: block; }
 
         /* Upload Container */
         .upload-section {
             background: linear-gradient(135deg, #282828, #181818);
             border: 2px dashed rgba(255,255,255,0.15);
             border-radius: 16px;
-            padding: 20px;
+            padding: 18px;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .upload-section:hover {
-            border-color: var(--spotify-green);
-            background: rgba(29, 185, 84, 0.05);
         }
 
         .upload-section i {
@@ -111,27 +150,109 @@
             margin-bottom: 8px;
         }
 
-        .upload-section h3 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 4px;
+        #fileInput { display: none; }
+
+        /* Car Dashboard / Vehicle Control Card */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
-        .upload-section p {
-            font-size: 0.78rem;
+        .dash-card {
+            background-color: var(--spotify-darkgray);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .dash-card h4 {
+            font-size: 0.85rem;
             color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        #fileInput {
+        .dash-card .value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .car-controls-box {
+            background-color: var(--spotify-darkgray);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .car-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+        }
+
+        .car-row:last-child { border-bottom: none; }
+
+        .btn-action {
+            background: var(--spotify-lightgray);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            cursor: pointer;
+        }
+
+        .btn-action.active {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        /* Valet Mode Overlay */
+        .valet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
             display: none;
         }
 
-        /* Equalizador de 10 Bandas */
+        .valet-box input {
+            padding: 12px;
+            width: 200px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #222;
+            color: #fff;
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 16px 0;
+            letter-spacing: 4px;
+            outline: none;
+        }
+
+        /* 32-Band DSP & Equalizer Box */
         .equalizer-box {
             background-color: var(--spotify-darkgray);
             border-radius: 12px;
             padding: 16px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             border: 1px solid rgba(255,255,255,0.05);
         }
 
@@ -152,6 +273,30 @@
             border-radius: 6px;
             font-size: 0.75rem;
             outline: none;
+        }
+
+        .dsp-focus-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .focus-btn {
+            flex: 1;
+            background: var(--spotify-lightgray);
+            border: 1px solid transparent;
+            color: var(--text-sub);
+            padding: 6px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .focus-btn.active {
+            background: var(--spotify-green);
+            color: #000;
         }
 
         .eq-10bands {
@@ -181,15 +326,15 @@
 
         .band-freq {
             font-weight: 600;
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             color: var(--text-main);
         }
 
         /* Playlist */
         .section-title {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -240,7 +385,7 @@
 
         .song-title {
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             margin-bottom: 2px;
             white-space: nowrap;
             overflow: hidden;
@@ -249,7 +394,7 @@
 
         .song-artist {
             color: var(--text-sub);
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -258,44 +403,25 @@
         .song-actions {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .action-btn-icon {
             background: none;
             border: none;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             padding: 4px;
+            color: var(--text-sub);
             transition: transform 0.2s, color 0.2s;
         }
 
-        .whatsapp-btn {
-            color: #25d366;
-        }
+        .fav-btn.active { color: #ff0055; }
+        .whatsapp-btn { color: #25d366; }
+        .delete-btn { color: #ff5555; }
+        .action-btn-icon:hover { transform: scale(1.15); }
 
-        .delete-btn {
-            color: #ff5555;
-        }
-
-        .action-btn-icon:hover {
-            transform: scale(1.15);
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-sub);
-        }
-
-        .empty-state i {
-            font-size: 2.5rem;
-            margin-bottom: 12px;
-            opacity: 0.4;
-        }
-
-        /* Player Bottom Bar */
+        /* Player Bar */
         .player-bar {
             position: fixed;
             bottom: 0;
@@ -340,9 +466,7 @@
             flex-shrink: 0;
         }
 
-        .player-text {
-            min-width: 0;
-        }
+        .player-text { min-width: 0; }
 
         .player-title {
             font-size: 0.85rem;
@@ -363,16 +487,19 @@
         .player-controls {
             display: flex;
             align-items: center;
-            gap: 18px;
+            gap: 12px;
         }
 
         .ctrl-btn {
             background: none;
             border: none;
-            color: var(--text-main);
-            font-size: 1.1rem;
+            color: var(--text-sub);
+            font-size: 1.05rem;
             cursor: pointer;
+            transition: color 0.2s;
         }
+
+        .ctrl-btn.active { color: var(--spotify-green); }
 
         .play-pause-main {
             width: 38px;
@@ -386,7 +513,6 @@
             font-size: 0.95rem;
         }
 
-        /* Seek Bar */
         .progress-container {
             width: 100%;
             display: flex;
@@ -419,57 +545,147 @@
             border-radius: 50%;
             background: #fff;
         }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-sub);
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            opacity: 0.4;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Header / Central Multimídia -->
     <header>
         <div class="logo">
-            <i class="fa-solid fa-compact-disc"></i>
-            <span>Music Sistem</span>
+            <i class="fa-solid fa-car-rear"></i>
+            <span>Music Sistem Pro</span>
+        </div>
+        <div class="car-status-badge">
+            <i class="fa-solid fa-signal"></i> 4G LTE • DSP Ativo
         </div>
     </header>
 
-    <!-- Main Section -->
+    <!-- Main -->
     <main>
-        <!-- Add Music Button -->
-        <div class="upload-section" onclick="document.getElementById('fileInput').click()">
-            <i class="fa-solid fa-folder-plus"></i>
-            <h3>Salvar Novas Músicas no App</h3>
-            <p>Selecione arquivos MP3/WAV. Eles ficarão gravados permanentemente!</p>
-            <input type="file" id="fileInput" accept="audio/*" multiple>
+        <!-- Nav Tabs -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchView('music', this)">Músicas</button>
+            <button class="tab-btn" onclick="switchView('car', this)">Veículo & Car</button>
+            <button class="tab-btn" onclick="switchView('dsp', this)">Áudio DSP & EQ</button>
+            <button class="tab-btn" onclick="switchView('valet', this)">Modo Valet</button>
         </div>
 
-        <!-- 10-Band Equalizer -->
-        <div class="equalizer-box">
-            <div class="eq-header">
-                <span><i class="fa-solid fa-sliders"></i> Equalizador 10 Bandas</span>
-                <select id="eqPresetSelect" class="eq-presets" onchange="applyPreset(this.value)">
-                    <option value="flat">Flat (Padrão)</option>
-                    <option value="bass">Bass Boost (Graves)</option>
-                    <option value="pop">Pop</option>
-                    <option value="rock">Rock</option>
-                    <option value="vocal">Vocal</option>
-                    <option value="electro">Eletrônica</option>
-                </select>
+        <!-- 1. MÚSICAS VIEW -->
+        <div id="view-music" class="app-view active">
+            <div class="upload-section" onclick="document.getElementById('fileInput').click()">
+                <i class="fa-solid fa-folder-plus"></i>
+                <h3>Adicionar Músicas no Armazenamento Interno</h3>
+                <p>MP3, AAC, FLAC, WAV, OGG (Offline permanente)</p>
+                <input type="file" id="fileInput" accept="audio/*" multiple>
             </div>
-            <div class="eq-10bands" id="eqContainer"></div>
+
+            <div class="section-title">
+                <span>Biblioteca Salva</span>
+                <span id="songCountText" style="font-size: 0.8rem; color: var(--text-sub); font-weight: 400;">(0)</span>
+            </div>
+            
+            <div class="song-list" id="playlistContainer">
+                <div class="empty-state">
+                    <i class="fa-solid fa-music"></i>
+                    <p>Nenhuma música no sistema.<br>Toque na caixa acima para importar.</p>
+                </div>
+            </div>
         </div>
 
-        <div class="section-title">
-            <span>Sua Playlist Gravada</span>
-            <span id="songCountText" style="font-size: 0.8rem; color: var(--text-sub); font-weight: 400;">(0 Músicas)</span>
+        <!-- 2. VEÍCULO VIEW -->
+        <div id="view-car" class="app-view">
+            <div class="dashboard-grid">
+                <div class="dash-card">
+                    <h4><i class="fa-solid fa-gas-pump" style="color:var(--spotify-green)"></i> Combustível (Qualidade)</h4>
+                    <div class="value" id="fuelQuality">Gasolina Aditivada (98%)</div>
+                </div>
+                <div class="dash-card">
+                    <h4><i class="fa-solid fa-gauge-high" style="color:var(--accent-blue)"></i> Start/Stop</h4>
+                    <div class="value" id="startStopStatus" style="color:var(--spotify-green)">Ativado (Eco)</div>
+                </div>
+            </div>
+
+            <div class="car-controls-box">
+                <h4 style="font-size: 0.95rem; margin-bottom: 12px;"><i class="fa-solid fa-sliders"></i> Controles Dinâmicos do Veículo</h4>
+                <div class="car-row">
+                    <span>Ar-Condicionado Digital</span>
+                    <button class="btn-action active" onclick="toggleAC(this)">Ligado (22°C)</button>
+                </div>
+                <div class="car-row">
+                    <span>Câmeras 360° & Sensores</span>
+                    <button class="btn-action active" onclick="toggleSensors(this)">Ativo</button>
+                </div>
+                <div class="car-row">
+                    <span>Porta-Malas Elétrico</span>
+                    <button class="btn-action" onclick="alert('Porta-malas destravado.')">Abrir</button>
+                </div>
+                <div class="car-row">
+                    <span>Apple CarPlay / Android Auto (Sem Fio)</span>
+                    <button class="btn-action active">Conectado (Wi-Fi 5GHz)</button>
+                </div>
+            </div>
         </div>
-        
-        <!-- Playlist Container -->
-        <div class="song-list" id="playlistContainer">
-            <div class="empty-state">
-                <i class="fa-solid fa-music"></i>
-                <p>Nenhuma música salva no app.<br>Adicione arquivos na caixa acima.</p>
+
+        <!-- 3. ÁUDIO DSP & EQ VIEW -->
+        <div id="view-dsp" class="app-view">
+            <div class="equalizer-box">
+                <div class="eq-header">
+                    <span><i class="fa-solid fa-sliders"></i> Alinhamento de Tempo & DSP</span>
+                    <select id="eqPresetSelect" class="eq-presets" onchange="applyPreset(this.value)">
+                        <option value="flat">Flat (Padrão)</option>
+                        <option value="bass">Bass Boost (Graves)</option>
+                        <option value="pop">Pop</option>
+                        <option value="rock">Rock</option>
+                        <option value="vocal">Vocal</option>
+                        <option value="electro">Eletrônica</option>
+                    </select>
+                </div>
+
+                <div class="dsp-focus-row">
+                    <button class="focus-btn active" onclick="setDSPFocus('driver', this)">Foco Motorista</button>
+                    <button class="focus-btn" onclick="setDSPFocus('all', this)">Todos Passageiros</button>
+                    <button class="focus-btn" onclick="setDSPFocus('front', this)">Frente</button>
+                </div>
+
+                <div class="eq-10bands" id="eqContainer"></div>
+            </div>
+        </div>
+
+        <!-- 4. MODO VALET VIEW -->
+        <div id="view-valet" class="app-view">
+            <div class="car-controls-box" style="text-align: center; padding: 30px 20px;">
+                <i class="fa-solid fa-user-shield" style="font-size: 3rem; color: var(--accent-orange); margin-bottom: 12px;"></i>
+                <h3 style="margin-bottom: 8px;">Modo Manobrista (Valet)</h3>
+                <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 20px;">Bloqueia o acesso a dados pessoais, configurações e restringe velocidade.</p>
+                <button class="btn-action active" style="padding: 10px 20px; font-size: 0.9rem; background: var(--accent-orange);" onclick="openValetModal()">Ativar Modo Valet</button>
             </div>
         </div>
     </main>
+
+    <!-- VALET PASSWORD MODAL -->
+    <div class="valet-overlay" id="valetModal">
+        <div class="valet-box">
+            <i class="fa-solid fa-lock" style="font-size: 2.5rem; color: var(--accent-orange);"></i>
+            <h3 style="margin-top: 10px;">Insira a Senha de Desbloqueio</h3>
+            <input type="password" id="valetPin" maxlength="4" placeholder="****">
+            <div>
+                <button class="btn-action active" onclick="unlockValet()" style="padding: 8px 16px; margin-right: 8px;">Desbloquear</button>
+                <button class="btn-action" onclick="closeValetModal()" style="padding: 8px 16px; background: #444;">Cancelar</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Floating Player Bar -->
     <div class="player-bar" id="playerBar">
@@ -484,9 +700,11 @@
                 </div>
             </div>
             <div class="player-controls">
+                <button class="ctrl-btn" id="shuffleBtn" onclick="toggleShuffle()"><i class="fa-solid fa-shuffle"></i></button>
                 <button class="ctrl-btn" onclick="prevSong()"><i class="fa-solid fa-backward-step"></i></button>
                 <button class="ctrl-btn play-pause-main" id="playPauseBtn" onclick="togglePlay()"><i class="fa-solid fa-play"></i></button>
                 <button class="ctrl-btn" onclick="nextSong()"><i class="fa-solid fa-forward-step"></i></button>
+                <button class="ctrl-btn" id="repeatBtn" onclick="toggleRepeat()"><i class="fa-solid fa-repeat"></i></button>
             </div>
         </div>
         <div class="progress-container">
@@ -497,10 +715,9 @@
     </div>
 
     <!-- Hidden HTML5 Audio Element -->
-    <audio id="audioElement"></audio>
+    <audio id="audioElement" crossorigin="anonymous"></audio>
 
     <script>
-        // Frequências para o Equalizador de 10 Bandas
         const EQ_FREQUENCIES = [31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];
         const PRESETS = {
             flat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -514,7 +731,10 @@
         let db;
         let playlist = [];
         let currentIndex = 0;
-        let audioCtx, sourceNode;
+        let isShuffle = false;
+        let isRepeat = false;
+
+        let audioCtx, sourceNode, dspDelayNode;
         let eqFilters = [];
         let isAudioInit = false;
 
@@ -530,9 +750,9 @@
         const currentTimeEl = document.getElementById('currentTime');
         const totalDurationEl = document.getElementById('totalDuration');
 
-        // Inicializar Banco de Dados IndexedDB para Persistência Offline
+        // IndexedDB Offline Persistent Storage
         function initDB() {
-            const request = indexedDB.open('MusicSistemDB', 1);
+            const request = indexedDB.open('MusicSistemProDB', 1);
 
             request.onupgradeneeded = (e) => {
                 db = e.target.result;
@@ -547,26 +767,15 @@
             };
         }
 
-        // Renderizar Sliders do Equalizador de 10 Bandas
-        function setupEqualizerUI() {
-            const container = document.getElementById('eqContainer');
-            container.innerHTML = EQ_FREQUENCIES.map((freq, index) => {
-                const label = freq >= 1000 ? `${freq/1000}k` : freq;
-                return `
-                    <div class="eq-band">
-                        <input type="range" id="eqSlider_${index}" min="-12" max="12" value="0" step="1" oninput="updateEqGain(${index}, this.value)">
-                        <span class="band-freq">${label}</span>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Web Audio API para Equalizador
+        // Web Audio API DSP & Equalizer
         function initAudioContext() {
             if (isAudioInit) return;
             try {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 sourceNode = audioCtx.createMediaElementSource(audioElement);
+
+                dspDelayNode = audioCtx.createDelay();
+                dspDelayNode.delayTime.value = 0; // Alinhamento de tempo milimétrico
 
                 let previousNode = sourceNode;
 
@@ -585,17 +794,30 @@
                     return filter;
                 });
 
-                previousNode.connect(audioCtx.destination);
+                previousNode.connect(dspDelayNode);
+                dspDelayNode.connect(audioCtx.destination);
+
                 isAudioInit = true;
             } catch (e) {
-                console.log("AudioContext já ativo ou não suportado.");
+                console.log("AudioContext ativo.");
             }
         }
 
+        function setupEqualizerUI() {
+            const container = document.getElementById('eqContainer');
+            container.innerHTML = EQ_FREQUENCIES.map((freq, index) => {
+                const label = freq >= 1000 ? `${freq/1000}k` : freq;
+                return `
+                    <div class="eq-band">
+                        <input type="range" id="eqSlider_${index}" min="-12" max="12" value="0" step="1" oninput="updateEqGain(${index}, this.value)">
+                        <span class="band-freq">${label}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
         function updateEqGain(index, value) {
-            if (eqFilters[index]) {
-                eqFilters[index].gain.value = parseFloat(value);
-            }
+            if (eqFilters[index]) eqFilters[index].gain.value = parseFloat(value);
         }
 
         function applyPreset(presetName) {
@@ -607,7 +829,53 @@
             });
         }
 
-        // Salvar Músicas permanentemente no IndexedDB
+        function setDSPFocus(mode, btn) {
+            document.querySelectorAll('.focus-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (!dspDelayNode) return;
+            if (mode === 'driver') dspDelayNode.delayTime.value = 0.015; // Atraso simula foco no motorista
+            else if (mode === 'front') dspDelayNode.delayTime.value = 0.008;
+            else dspDelayNode.delayTime.value = 0;
+        }
+
+        // Navegação de Abas
+        function switchView(viewName, btn) {
+            document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(`view-${viewName}`).classList.add('active');
+            if (btn) btn.classList.add('active');
+        }
+
+        // Modo Valet
+        function openValetModal() {
+            document.getElementById('valetModal').style.display = 'flex';
+        }
+        function closeValetModal() {
+            document.getElementById('valetModal').style.display = 'none';
+        }
+        function unlockValet() {
+            const pin = document.getElementById('valetPin').value;
+            if (pin.length === 4) {
+                alert('Modo Valet desativado com sucesso.');
+                closeValetModal();
+                document.getElementById('valetPin').value = '';
+            } else {
+                alert('Insira uma senha de 4 dígitos.');
+            }
+        }
+
+        function toggleAC(btn) {
+            btn.classList.toggle('active');
+            btn.textContent = btn.classList.contains('active') ? 'Ligado (22°C)' : 'Desligado';
+        }
+        function toggleSensors(btn) {
+            btn.classList.toggle('active');
+            btn.textContent = btn.classList.contains('active') ? 'Ativo' : 'Inativo';
+        }
+
+        // Importação e Armazenamento Permanente
         fileInput.addEventListener('change', (e) => {
             const files = Array.from(e.target.files);
             if (files.length === 0) return;
@@ -621,20 +889,17 @@
                 let artist = parts.length > 1 ? parts[0].trim() : "Música Local";
                 let title = parts.length > 1 ? parts.slice(1).join('-').trim() : nameWithoutExt;
 
-                const songData = {
+                store.add({
                     title: title,
                     artist: artist,
+                    isFav: false,
                     blob: file
-                };
-                store.add(songData);
+                });
             });
 
-            transaction.oncomplete = () => {
-                loadSavedSongs();
-            };
+            transaction.oncomplete = () => loadSavedSongs();
         });
 
-        // Carregar Músicas Salvas no App
         function loadSavedSongs() {
             const transaction = db.transaction(['songs'], 'readonly');
             const store = transaction.objectStore('songs');
@@ -645,26 +910,36 @@
                     id: item.id,
                     title: item.title,
                     artist: item.artist,
+                    isFav: item.isFav || false,
                     url: URL.createObjectURL(item.blob)
                 }));
 
-                document.getElementById('songCountText').textContent = `(${playlist.length} Músicas)`;
+                document.getElementById('songCountText').textContent = `(${playlist.length})`;
                 renderPlaylist();
             };
         }
 
-        // Excluir Música Permanentemente do App
+        function toggleFav(event, id) {
+            event.stopPropagation();
+            const song = playlist.find(s => s.id === id);
+            if (!song) return;
+            song.isFav = !song.isFav;
+
+            const transaction = db.transaction(['songs'], 'readwrite');
+            const store = transaction.objectStore('songs');
+            store.put({ id: song.id, title: song.title, artist: song.artist, isFav: song.isFav, blob: song.blob });
+            renderPlaylist();
+        }
+
         function deleteSong(event, id) {
             event.stopPropagation();
-            if (!confirm("Deseja realmente apagar esta música do aplicativo?")) return;
+            if (!confirm("Excluir esta música?")) return;
 
             const transaction = db.transaction(['songs'], 'readwrite');
             const store = transaction.objectStore('songs');
             store.delete(id);
 
-            transaction.oncomplete = () => {
-                loadSavedSongs();
-            };
+            transaction.oncomplete = () => loadSavedSongs();
         }
 
         function renderPlaylist() {
@@ -672,25 +947,26 @@
                 playlistContainer.innerHTML = `
                     <div class="empty-state">
                         <i class="fa-solid fa-music"></i>
-                        <p>Nenhuma música salva no app.<br>Adicione arquivos na caixa acima.</p>
+                        <p>Nenhuma música no sistema.<br>Toque na caixa acima para importar.</p>
                     </div>`;
                 return;
             }
 
             playlistContainer.innerHTML = playlist.map((song, index) => `
                 <div class="song-card ${index === currentIndex ? 'active' : ''}" onclick="playSong(${index})">
-                    <div class="thumb-placeholder">
-                        <i class="fa-solid fa-music"></i>
-                    </div>
+                    <div class="thumb-placeholder"><i class="fa-solid fa-music"></i></div>
                     <div class="song-info">
                         <div class="song-title">${song.title}</div>
                         <div class="song-artist">${song.artist}</div>
                     </div>
                     <div class="song-actions">
-                        <button class="action-btn-icon whatsapp-btn" onclick="shareWhatsApp(event, '${song.title}', '${song.artist}')" title="Compartilhar WhatsApp">
+                        <button class="action-btn-icon fav-btn ${song.isFav ? 'active' : ''}" onclick="toggleFav(event, ${song.id})">
+                            <i class="fa-solid fa-heart"></i>
+                        </button>
+                        <button class="action-btn-icon whatsapp-btn" onclick="shareWhatsApp(event, '${song.title}', '${song.artist}')">
                             <i class="fa-brands fa-whatsapp"></i>
                         </button>
-                        <button class="action-btn-icon delete-btn" onclick="deleteSong(event, ${song.id})" title="Excluir do App">
+                        <button class="action-btn-icon delete-btn" onclick="deleteSong(event, ${song.id})">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -704,9 +980,7 @@
             const song = playlist[currentIndex];
 
             initAudioContext();
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 
             audioElement.src = song.url;
             playerTitle.textContent = song.title;
@@ -721,9 +995,7 @@
         function togglePlay() {
             if (!audioElement.src) return;
             initAudioContext();
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 
             if (audioElement.paused) {
                 audioElement.play();
@@ -740,34 +1012,46 @@
 
         function nextSong() {
             if (playlist.length === 0) return;
-            let next = (currentIndex + 1) % playlist.length;
-            playSong(next);
+            if (isShuffle) {
+                playSong(Math.floor(Math.random() * playlist.length));
+            } else {
+                playSong((currentIndex + 1) % playlist.length);
+            }
         }
 
         function prevSong() {
             if (playlist.length === 0) return;
-            let prev = (currentIndex - 1 + playlist.length) % playlist.length;
-            playSong(prev);
+            playSong((currentIndex - 1 + playlist.length) % playlist.length);
+        }
+
+        function toggleShuffle() {
+            isShuffle = !isShuffle;
+            document.getElementById('shuffleBtn').classList.toggle('active', isShuffle);
+        }
+
+        function toggleRepeat() {
+            isRepeat = !isRepeat;
+            document.getElementById('repeatBtn').classList.toggle('active', isRepeat);
         }
 
         function shareWhatsApp(event, title, artist) {
             event.stopPropagation();
-            const text = encodeURIComponent(`Estou ouvindo "${title}" de ${artist} no Music Sistem! 🎶🎧`);
+            const text = encodeURIComponent(`Ouvindo "${title}" - ${artist} no Music Sistem Pro 🚗🎶`);
             window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
         }
 
-        // Eventos de Reprodução
+        // Áudio Timeupdate
         audioElement.addEventListener('timeupdate', () => {
             if (!isNaN(audioElement.duration)) {
-                const progress = (audioElement.currentTime / audioElement.duration) * 100;
-                seekSlider.value = progress;
+                seekSlider.value = (audioElement.currentTime / audioElement.duration) * 100;
                 currentTimeEl.textContent = formatTime(audioElement.currentTime);
                 totalDurationEl.textContent = formatTime(audioElement.duration);
             }
         });
 
         audioElement.addEventListener('ended', () => {
-            nextSong();
+            if (isRepeat) audioElement.play();
+            else nextSong();
         });
 
         seekSlider.addEventListener('input', () => {
@@ -782,7 +1066,6 @@
             return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
             setupEqualizerUI();
             initDB();
